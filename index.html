@@ -9,15 +9,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="main.css">
     </head>
-    <body>
-        <div id="main" class="centerdiv">
-            <p class="indiv">Photos</p>
+    <body id="joe">
+        <script>
+            var current_page = 0;
+            var max_images = 5;
+            function nextpage() {
+                current_page += 1;
+            }
+            function previouspage() {
+                
+                if (current_page != 0)
+                {current_page -= 1;}
+            }
 
-    <button onclick="add_post('joe',)">Click</element>
+        </script>
+        <div id="main" class="centerdiv">
+            
+            <p class="indiv">Photos</p>
+            <button onclick="populate('photos_container','photo','photodiv')">Populate</button>
+           
+            <button onclick="clear_photos('photos_container')">Clear</button>
+            <div id="photos_container"></div>
+
+           
+            
         </div>
         
         <script src="main.js" async defer></script>
-        
 
     </body>
 </html>
