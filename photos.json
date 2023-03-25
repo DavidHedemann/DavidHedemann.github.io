@@ -1,6 +1,3 @@
 {
-    "photo1": "photos/test.png",
-    "photo2": "photos/test1.png",
-    "photo3": "photos/test.png",
-    "photo4": "photos/test1.png"
+    "photos": []
 }

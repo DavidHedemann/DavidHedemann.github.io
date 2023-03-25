@@ -1,41 +1,111 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Main page</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="main.css">
-    </head>
-    <body id="joe">
-        <script>
-            var current_page = 0;
-            var max_images = 5;
-            function nextpage() {
-                current_page += 1;
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Main page</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="main.css" />
+    <script src="main.js" async defer></script>
+  </head>
+  <body>
+    <script src="main.js" async defer></script>
+    <script>
+      function count_keys(jsonfile) {
+        var count = 0;
+        return fetch(jsonfile)
+          .then((response) => response.json())
+          .then((data) => {
+            for (let key in data) {
+              count += 1;
             }
-            function previouspage() {
-                
-                if (current_page != 0)
-                {current_page -= 1;}
-            }
+            return count;
+          })
+          .catch((error) => {
+            console.error("Error loading JSON file:", error);
+          });
+      }
+      var max_images = 5;
+      var dropdown = document.getElementById("postsDropdown");
 
-        </script>
-        <div id="main" class="centerdiv">
-            
-            <p class="indiv">Photos</p>
-            <button onclick="populate('photos_container','photo','photodiv')">Populate</button>
-           
-            <button onclick="clear_photos('photos_container')">Clear</button>
-            <div id="photos_container"></div>
+      window.onload = function () {
+        dropdown = document.getElementById("postsDropdown");
 
-           
-            
-        </div>
-        
-        <script src="main.js" async defer></script>
+        dropdown.addEventListener("change", () => {
+          max_images = dropdown.value;
+        });
+        populate(
+          "photos_container",
+          "photo",
+          "photodiv",
+          current_page,
+          max_images
+        );
+      };
 
-    </body>
+      var current_page = 0;
+      var page_text = "Page ";
+      var page_element = "page_indicator";
+
+      var source_json = "photos.json";
+
+      function update_text(page_num, text, element) {
+        var thing = document.getElementById(element);
+        thing.textContent = text + (page_num + 1);
+      }
+      function nextpage() {
+        count_keys(source_json).then((num) => {
+          number_keys = num;
+
+          if (number_keys > (current_page + 1) * max_images) {
+            current_page += 1;
+            update_text(current_page, page_text, page_element);
+            populate(
+              "photos_container",
+              "photo",
+              "photodiv",
+              current_page,
+              max_images
+            );
+          }
+        });
+      }
+      function previouspage() {
+        if (current_page != 0) {
+          current_page -= 1;
+          update_text(current_page, page_text, page_element);
+          populate(
+            "photos_container",
+            "photo",
+            "photodiv",
+            current_page,
+            max_images
+          );
+        }
+      }
+    </script>
+    <div id="main" class="centerdiv">
+      <p class="indiv">Photos</p>
+      <p class="indiv" , id="page_indicator">Page 1</p>
+      <p class="posts_options">
+        Posts per page:
+        <select id="postsDropdown">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+          <option value="30">30</option>
+        </select>
+      </p>
+      <div class="navbuttons">
+        <button onclick="previouspage()">←</button
+        ><button onclick="nextpage()">→</button>
+      </div>
+
+      <div id="photos_container"></div>
+    </div>
+  </body>
 </html>

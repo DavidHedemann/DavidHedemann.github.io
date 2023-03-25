@@ -1,2 +1,2 @@
 # photos
-Photo website thing
+Photography website thing
