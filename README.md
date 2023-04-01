@@ -1,3 +1,3 @@
 # photos
 Photography website thing
-"some shit idk"
+Link: https://davidhedemann.github.io/
