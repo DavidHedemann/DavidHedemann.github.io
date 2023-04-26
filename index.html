@@ -56,21 +56,23 @@
         thing.textContent = text + (page_num + 1);
       }
       function nextpage() {
-        count_keys(source_json).then((num) => {
-          number_keys = num;
-
-          if (number_keys > (current_page + 1) * max_images) {
-            current_page += 1;
-            update_text(current_page, page_text, page_element);
-            populate(
-              "photos_container",
-              "photo",
-              "photodiv",
-              current_page,
-              max_images
-            );
-          }
-        });
+        fetch("photos.json")
+          .then((response) => response.json())
+          .then((data) => {
+            const number_keys = data.photos.length;
+            if (data.photos.length > (current_page + 1) * max_images) {
+              current_page += 1;
+              update_text(current_page, page_text, page_element);
+              populate(
+                "photos_container",
+                "photo",
+                "photodiv",
+                current_page,
+                max_images
+              );
+            }
+          })
+          .catch((error) => console.error(error));
       }
       function previouspage() {
         if (current_page != 0) {
